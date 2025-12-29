@@ -18,7 +18,7 @@ setup(
     zip_safe=True,
     maintainer='asano',
     maintainer_email='muuuuu2525@users.noreply.github.com',
-    description='Robot safety system package for obstacle detection.',
+    description='Robot safety system package.',
     license='Apache-2.0',
     extras_require={
         'test': [
