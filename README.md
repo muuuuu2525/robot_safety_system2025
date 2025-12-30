@@ -1,59 +1,76 @@
-# ROS2課題
+# robot_safety_system
 
-ロボットの障害物検知および緊急停止機能をシミュレーションするROS 2パッケージです。
-擬似的な距離センサーの値を監視し、一定距離（1.0m）未満になると停止信号を発行します。
+![test](https://github.com/muuuuu2525/robot_safety_system2025/actions/workflows/test.yml/badge.svg)
 
-![test](https://github.com/[あなたのGitHubユーザー名]/robot_safety_system/actions/workflows/test.yml/badge.svg)
+* 距離センサーの値をシミュレートし、障害物が接近した場合に自動で緊急停止命令を出すROS 2パッケージです。
 
-## 必要環境
-* Ubuntu 22.04 LTS
-* ROS 2 Humble Hawksbill
-* Python 3.10
+## 概要
 
-## インストール方法
-ワークスペースの `src` ディレクトリに移動し、リポジトリをクローンしてください。
+* **センサー機能**: 0.5m〜3.0mのランダムな距離データを定期的に生成・配信します。
+* **判定機能**: 距離データを受信し、設定された閾値（1.0m）以下かどうかを判定します。
+* **通信機能**: `/distance` トピックで距離を、`/safety_status` トピックで安全状態（GO/STOP）を配信します。
+* **警告機能**: 距離が1.0mを下回った場合、ログレベルをWARN（警告）に引き上げて危険を知らせます。
+
+## 実行環境
+
+* Ubuntu 24.04 LTS / Ubuntu 22.04 LTS
+* ROS 2 Jazzy Jalisco / Humble Hawksbill
+* Python 3.10 ~ 3.12
+
+## 必要なライブラリ / 必要なパッケージ
+
+* ROS 2の標準ライブラリ（`rclpy`, `std_msgs`）のみを使用しているため、追加のインストールは不要です。
+
+## セットアップ
+
+* 以下のコマンドでリポジトリをクローンし、ビルドします。
 
 ```bash
 cd ~/ros2_ws/src
-git clone [https://github.com/](https://github.com/)[あなたのGitHubユーザー名]/robot_safety_system.git
+git clone [https://github.com/muuuuu2525/robot_safety_system2025.git](https://github.com/muuuuu2525/robot_safety_system2025.git)
+cd ~/ros2_ws
+colcon build --packages-select robot_safety_system
 ```
 
-## 実行方法
-以下のコマンドで、センサーノードとブレーキノードを同時に起動します。
-
-* ros2 launch robot_safety_system safety_system_launch.py
-
-## 実行結果の例
-以下のように、距離に応じて GO または STOP が表示されます。
-
-[INFO] [launch]: All log files can be found below ...
-[INFO] [sensor-1]: process started with pid [1234]
-[INFO] [brake-2]: process started with pid [1235]
-[brake-2] [INFO] [safety_brake]: Safety Brake System is ready.
-[sensor-1] [INFO] [sensor_simulator]: Sensor Simulator has started.
-[sensor-1] [INFO] [sensor_simulator]: Publishing distance: 2.54m
-[brake-2] [INFO] [safety_brake]: Safe. Distance: 2.54m. GO.
-...
-[sensor-1] [INFO] [sensor_simulator]: Publishing distance: 0.85m
-[brake-2] [WARN] [safety_brake]: DANGER! Distance: 0.85m. STOP!
-
-* Ctrl+C で終了
-
-## テスト方法
-以下のコマンドで、ライセンス準拠やコードスタイルのテストを実行できます。
-
-colcon test --packages-select robot_safety_system
-
-## ライセンス
-このソフトウェアは、Apache License 2.0の下で公開されています。 詳細についてはLICENSEファイルを確認してください。
-
-* SPDX-FileCopyrightText: 2025 浅野真夢
-* SPDX-License-Identifier: Apache-2.0
+## 使用方法
+* 以下のコマンドを実行して、システム（センサーとブレーキ）を起動します。
 
 ```bash
-vim LICENSE
-wget https://www.apache.org/licenses/LICENSE-2.0.txt -O LICENSE
+source install/setup.bash
+ros2 launch robot_safety_system safety_system_launch.py
 ```
+
+* 実行すると、以下のように距離に応じたログが出力されます。
+
+## 安全な距離
+[sensor_simulator-1] [INFO] [1735540000.123456789] [sensor_simulator]: Publishing distance: 2.45m
+[safety_brake-2] [INFO] [1735540000.124567890] [safety_brake]: Safe. Distance: 2.45m. GO.
+
+* 障害物が接近（1.0m未満）すると、以下のように警告（WARN）が表示され、停止命令が出ます。
+
+## 接近検知
+[sensor_simulator-1] [INFO] [1735540005.987654321] [sensor_simulator]: Publishing distance: 0.85m
+[safety_brake-2] [WARN] [1735540005.988765432] [safety_brake]: DANGER! Distance: 0.85m. STOP!
+
+## ライセンス
+* このパッケージは、Apache-2.0 Licenseの下で公開されています。
+* © 2025 Taro Chiba EOF
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
