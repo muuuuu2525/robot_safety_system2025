@@ -36,24 +36,33 @@
 
 ## 使用方法
 
-* ワークスペースでビルド後、以下のコマンドでシステム（センサーとブレーキ）を一括起動します。
+## システムの起動
+   ワークスペースでビルド後、以下のコマンドでシステムを起動します。
+   ```bash
+   ros2 launch robot_safety_system safety_system_launch.py
+   ```
+
+## トピック通信の確認 
+   別のターミナルを開き、以下のコマンドでノード間の通信状況（データ）を直接確認できます。
+
+* 距離データ
 
 ```bash
-ros2 launch robot_safety_system safety_system_launch.py
+$ ros2 topic echo /distance
+data: 2.45
+---
+data: 0.85
+---
 ```
 
-* 実行すると、以下のように距離に応じたログが出力されます。
+* 安全ステータス
 
-## 通常
-[sensor_simulator-1] [INFO]: Publishing distance: 2.45m
-[safety_brake-2] [INFO]: Safe. Distance: 2.45m. GO.
-
-## 接近検知
-[sensor_simulator-1] [INFO]: Publishing distance: 0.85m
-[safety_brake-2] [WARN]: DANGER! Distance: 0.85m. STOP!
-
-#### ブロック3（ライセンス 〜 更新履歴）
-```markdown
+```bash
+$ ros2 topic echo /safety_status
+data: "GO"
+---
+data: "STOP"
+---
 ```
 
 ## ライセンス
