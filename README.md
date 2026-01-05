@@ -55,10 +55,28 @@ data: 0.85
 ---
 ```
 
+* 出力例:
+
+```YAML
+data: 2.45
+---
+data: 0.85
+---
+```
+
 * 安全ステータス
 
 ```bash
 $ ros2 topic echo /safety_status
+data: "GO"
+---
+data: "STOP"
+---
+```
+
+* 出力例:
+
+```YAML
 data: "GO"
 ---
 data: "STOP"
