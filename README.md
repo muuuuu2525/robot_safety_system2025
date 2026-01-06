@@ -18,9 +18,9 @@
 ### トピック一覧
 
 | トピック名 | データ型 | パブリッシャ | サブスクライバ | 説明 |
-| :--- | :--- | :--- | :--- |
-| `/distance` | `std_msgs/Float32` | `sensor` → `brake` | センサーが計測した障害物までの距離（メートル） |
-| `/safety_status` | `std_msgs/String` | `brake` → 外部 | 安全状態を示すステータス（"GO" または "STOP"） |
+| :--- | :--- | :--- | :--- | :--- |
+| `/distance` | `std_msgs/Float32` | `sensor_simulator` | `safety_brake` | センサーが計測した障害物までの距離 |
+| `/safety_status` | `std_msgs/String` | `safety_brake` | - (外部監視用) | 安全状態を示すステータス（"GO" / "STOP"） |
 
 ## 概要
 
